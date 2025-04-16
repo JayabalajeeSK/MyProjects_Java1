@@ -1,5 +1,8 @@
 package com.jb.ems_backend.service;
+import com.jb.ems_backend.dto.EmployeeDto;
 
-public class EmployeeService {
+public interface EmployeeService {
+
+    EmployeeDto createEmployee(EmployeeDto employeeDto);
 
 }
