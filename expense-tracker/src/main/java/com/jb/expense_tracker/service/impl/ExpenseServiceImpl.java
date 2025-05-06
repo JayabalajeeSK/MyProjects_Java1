@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.jb.expense_tracker.Exceptions.ResourceNotFoundException;
 import com.jb.expense_tracker.dto.ExpenseDto;
 import com.jb.expense_tracker.entity.Category;
@@ -67,4 +66,4 @@ public class ExpenseServiceImpl implements ExpenseService
         Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: " + id));
         expenseRepository.delete(expense);
     }
-}
+}//

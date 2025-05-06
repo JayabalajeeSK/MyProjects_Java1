@@ -60,4 +60,4 @@ public class ErrorDetails {
         this.details = details;
         this.errorCode = errorCode;
     }
-}
+}//

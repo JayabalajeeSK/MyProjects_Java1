@@ -5,4 +5,4 @@ import com.jb.expense_tracker.entity.Expense;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-}
+}//

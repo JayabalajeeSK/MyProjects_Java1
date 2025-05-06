@@ -1,8 +1,6 @@
 package com.jb.expense_tracker.entity;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,4 +56,4 @@ public class Expense
         this.expenseDate = expenseDate;
         this.category = category;
     }
-}
+}//

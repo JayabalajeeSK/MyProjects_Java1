@@ -124,4 +124,4 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Category with ID " + id + " deleted successfully.");
     }
-}
+}//
