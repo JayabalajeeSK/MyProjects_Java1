@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +43,13 @@ public class ExpenseController
     {
         List<ExpenseDto> expenses = expenseService.getAllExpenses();
         return new ResponseEntity<>(expenses, HttpStatus.OK);
+    }
+
+    //update expense by id
+    @PutMapping("/{id}")
+    public ResponseEntity<ExpenseDto> updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseDto expenseDto)
+    {
+        ExpenseDto updatedExpense = expenseService.updateExpenseById(id, expenseDto);
+        return new ResponseEntity<>(updatedExpense, HttpStatus.OK);
     }
 }

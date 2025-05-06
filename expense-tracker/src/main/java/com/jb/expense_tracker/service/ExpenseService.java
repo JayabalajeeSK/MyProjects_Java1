@@ -9,6 +9,8 @@ public interface ExpenseService
     ExpenseDto getExpenseById(Long id);
 
     List<ExpenseDto> getAllExpenses();
+
+    ExpenseDto updateExpenseById(Long id, ExpenseDto expenseDto);
 	
 
 }
