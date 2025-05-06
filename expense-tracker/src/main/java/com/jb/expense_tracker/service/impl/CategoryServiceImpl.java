@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.jb.expense_tracker.Exceptions.ResourceNotFoundException;
 import com.jb.expense_tracker.dto.CategoryDto;
 import com.jb.expense_tracker.entity.Category;
 import com.jb.expense_tracker.mapper.CategoryMapper;
@@ -26,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getCategoryById(Long id) 
     {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id: "+ id));
         return CategoryMapper.mapToCategoryDto(category);
     }
 
@@ -42,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) 
     {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id: "+ id));
         category.setName(categoryDto.name());
         Category updatedCategory = categoryRepository.save(category);
         return CategoryMapper.mapToCategoryDto(updatedCategory);
@@ -51,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto deleteCategory(Long id) 
     {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category Not Found with id: "+ id));
         categoryRepository.delete(category);
         return CategoryMapper.mapToCategoryDto(category);
     }

@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.jb.expense_tracker.Exceptions.ResourceNotFoundException;
 import com.jb.expense_tracker.dto.ExpenseDto;
 import com.jb.expense_tracker.entity.Category;
 import com.jb.expense_tracker.entity.Expense;
@@ -30,7 +32,7 @@ public class ExpenseServiceImpl implements ExpenseService
     @Override
     public ExpenseDto getExpenseById(Long id) 
     {
-        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: " + id));
         return ExpenseMapper.mapToExpenseDto(expense);
 
     }
@@ -47,12 +49,12 @@ public class ExpenseServiceImpl implements ExpenseService
     @Override
     public ExpenseDto updateExpenseById(Long id, ExpenseDto expenseDto) 
     {
-        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: " + id));
         expense.setAmount(expenseDto.amount());
         expense.setExpenseDate(expenseDto.expenseDate());
         if(expenseDto.categoryDto() != null)
         {
-            Category category = categoryRepository.findById(expenseDto.categoryDto().id()).orElseThrow(() -> new RuntimeException("category not found with id: " + expenseDto.categoryDto().id()));
+            Category category = categoryRepository.findById(expenseDto.categoryDto().id()).orElseThrow(() -> new ResourceNotFoundException("category not found with id: " + expenseDto.categoryDto().id()));
             expense.setCategory(category);
         }
         Expense updatedExpense = expenseRepository.save(expense);
@@ -62,7 +64,7 @@ public class ExpenseServiceImpl implements ExpenseService
     @Override
     public void deleteExpenseDto(Long id) 
     {
-        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: " + id));
         expenseRepository.delete(expense);
     }
 }
