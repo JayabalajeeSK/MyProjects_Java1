@@ -3,7 +3,7 @@ import com.jb.expense_tracker.dto.CategoryDto;
 import com.jb.expense_tracker.entity.Category;
 
 public class CategoryMapper {
-    public static Category mapToCategoryDto(CategoryDto categoryDto)
+    public static Category mapToCategory(CategoryDto categoryDto)
     {
         return new Category(
             categoryDto.id(),
@@ -11,7 +11,7 @@ public class CategoryMapper {
         );
     }
 
-    public static CategoryDto mapToCategory(Category category)
+    public static CategoryDto mapToCategoryDto(Category category)
     {
         return new CategoryDto(
             category.getId(),
