@@ -5,4 +5,6 @@ public interface CategoryService {
 
     CategoryDto createCategory(CategoryDto categoryDto);
 
+    CategoryDto getCategoryById(Long id);
+
 }
