@@ -1,5 +1,5 @@
 package com.jb.expense_tracker.repository;
-import java.util.Locale.Category;
+import com.jb.expense_tracker.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
