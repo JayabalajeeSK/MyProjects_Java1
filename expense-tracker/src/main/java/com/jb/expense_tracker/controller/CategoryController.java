@@ -1,4 +1,6 @@
 package com.jb.expense_tracker.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,14 @@ public class CategoryController
     {
         CategoryDto categoryDto = categoryService.getCategoryById(id);
         return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+    }
+
+    //get all categories
+    @GetMapping
+    public ResponseEntity<List<CategoryDto>> getAllCategories()
+    {
+        List<CategoryDto> categories = categoryService.getAllCategory();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
 }

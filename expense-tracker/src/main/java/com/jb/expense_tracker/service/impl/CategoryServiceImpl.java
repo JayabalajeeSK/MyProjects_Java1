@@ -1,4 +1,7 @@
 package com.jb.expense_tracker.service.impl;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jb.expense_tracker.dto.CategoryDto;
@@ -26,6 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
     {
         Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not Find"));
         return CategoryMapper.mapToCategoryDto(category);
+    }
+
+    @Override
+    public List<CategoryDto> getAllCategory() 
+    {
+        List<Category> categories = categoryRepository.findAll();
+        return categories.stream()
+                         .map((Category) -> CategoryMapper.mapToCategoryDto(Category))
+                         .collect(Collectors.toList());
     }
 
 }
