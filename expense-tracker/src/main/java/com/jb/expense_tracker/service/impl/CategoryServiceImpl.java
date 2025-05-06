@@ -1,7 +1,6 @@
 package com.jb.expense_tracker.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jb.expense_tracker.dto.CategoryDto;
@@ -27,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getCategoryById(Long id) 
     {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not Find"));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
         return CategoryMapper.mapToCategoryDto(category);
     }
 
@@ -38,6 +37,23 @@ public class CategoryServiceImpl implements CategoryService {
         return categories.stream()
                          .map((Category) -> CategoryMapper.mapToCategoryDto(Category))
                          .collect(Collectors.toList());
+    }
+
+    @Override
+    public CategoryDto updateCategory(Long id, CategoryDto categoryDto) 
+    {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
+        category.setName(categoryDto.name());
+        Category updatedCategory = categoryRepository.save(category);
+        return CategoryMapper.mapToCategoryDto(updatedCategory);
+    }
+
+    @Override
+    public CategoryDto deleteCategory(Long id) 
+    {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category Not Found with id: "+ id));
+        categoryRepository.delete(category);
+        return CategoryMapper.mapToCategoryDto(category);
     }
 
 }
