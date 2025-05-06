@@ -1,7 +1,6 @@
 package com.jb.expense_tracker.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.jb.expense_tracker.dto.ExpenseDto;
@@ -11,6 +10,7 @@ import com.jb.expense_tracker.mapper.ExpenseMapper;
 import com.jb.expense_tracker.repository.CategoryRepository;
 import com.jb.expense_tracker.repository.ExpenseRepository;
 import com.jb.expense_tracker.service.ExpenseService;
+
 @Service
 public class ExpenseServiceImpl implements ExpenseService 
 {
@@ -57,5 +57,12 @@ public class ExpenseServiceImpl implements ExpenseService
         }
         Expense updatedExpense = expenseRepository.save(expense);
         return ExpenseMapper.mapToExpenseDto(updatedExpense);
+    }
+
+    @Override
+    public void deleteExpenseDto(Long id) 
+    {
+        Expense expense = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not found with id: " + id));
+        expenseRepository.delete(expense);
     }
 }
