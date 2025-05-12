@@ -2,6 +2,7 @@ package com.jb.spring_boot_rest_api.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.jb.spring_boot_rest_api.Entity.Student;
@@ -26,5 +27,12 @@ public class StudentController {
         students.add(new Student(3, "tharun", "bala"));
         students.add(new Student(4, "jb", "S K"));
         return students;
+    }
+
+    @GetMapping("/student/{id}/{firstName}/{lastName}")
+    private Student getStudentById(@PathVariable int id, @PathVariable String firstName, @PathVariable String lastName)
+    {
+        return new Student(id, firstName, lastName);
+
     }
 }
