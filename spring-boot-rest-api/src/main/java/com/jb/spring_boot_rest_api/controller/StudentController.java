@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.jb.spring_boot_rest_api.Entity.Student;
 
@@ -30,9 +31,15 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}/{firstName}/{lastName}")
-    private Student getStudentById(@PathVariable int id, @PathVariable String firstName, @PathVariable String lastName)
+    private Student getStudentByIdfirstNameLastName(@PathVariable int id, @PathVariable String firstName, @PathVariable String lastName)
     {
         return new Student(id, firstName, lastName);
 
+    }
+
+    @GetMapping("/student/query")
+    private Student studentRequestVariable(@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName)
+    {
+        return new Student(id, firstName, lastName);
     }
 }
