@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,5 +43,14 @@ public class StudentController {
     private Student studentRequestVariable(@RequestParam int id, @RequestParam String firstName, @RequestParam String lastName)
     {
         return new Student(id, firstName, lastName);
+    }
+
+    @PostMapping("/addStudent")
+    public Student createStudnet(@RequestBody Student student)
+    {
+        System.out.println(student.getId());
+        System.out.println(student.getFirstName());
+        System.out.println(student.getLastName());
+        return student;
     }
 }
