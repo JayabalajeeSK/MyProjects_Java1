@@ -1,5 +1,6 @@
 package com.jb.lombok_tutorial.Entity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -19,6 +20,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
 
@@ -36,5 +38,8 @@ public class User {
     public void updateEmail(@NonNull String email)
     {
         this.email=email;
+    }
+    public static void main(String[] args) {
+        
     }
 }
