@@ -1,24 +1,30 @@
 package com.jb.lombok_tutorial.Entity;
 public class TestUser {
     public static void main(String[] args) {
-        User user = new User();
-        User user1 = new User("Jayabalajee", "S K");
+        User user1 = new User(1, "Jaya", "Bala", "jaya@gmail.com", "6383892010", 22);
         User user2 = new User(1, "Jaya", "Bala", "jaya@gmail.com", "6383892010", 22);
-        System.out.println(user);
-        System.out.println(user1);
-        System.out.println(user2);
+        System.out.println(user1.equals(user2)); //True
+
+        User user3 = new User();
+        user3.setId(1);
+        user3.setFirstName("Jaya");
+        user3.setLastName("Bala");
+        user3.setEmail("jaya@gmail.com");
+        user3.setPhoneNumber("6383892010");
+        user3.setAge(22);
+        User user4 = new User();
+        user4.setId(1);
+        user4.setFirstName("Jaya");
+        user4.setLastName("Bala");
+        user4.setEmail("jaya@gmail.com");
+        user4.setPhoneNumber("6383892010");
+        user4.setAge(22);
+        System.out.println(user3.equals(user4)); //True
+
+        System.out.println(user1.equals(user3)); //True
+        System.out.println(user1.equals(user4)); //True
+        
+        System.out.println(user2.equals(user3)); //True
+        System.out.println(user2.equals(user4)); //True
     }
 }
-// User(id=0, firstName=null, lastName=null, email=null, phoneNumber=null, age=0)
-// User(id=0, firstName=Jayabalajee, lastName=S K, email=null, phoneNumber=null, age=0)
-// User(id=1, firstName=Jaya, lastName=Bala, email=jaya@gmail.com, phoneNumber=6383892010, age=22)
-
-// @ToString(includeFieldNames = false)
-// User(0, null, null, null, null, 0)
-// User(0, Jayabalajee, S K, null, null, 0)
-// User(1, Jaya, Bala, jaya@gmail.com, 6383892010, 22)
-
-// @ToString.Exclude
-// User(0, null, null, null, 0)
-// User(0, Jayabalajee, S K, null, 0)
-// User(1, Jaya, Bala, 6383892010, 22)
