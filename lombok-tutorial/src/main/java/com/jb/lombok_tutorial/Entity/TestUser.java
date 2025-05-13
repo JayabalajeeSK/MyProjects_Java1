@@ -9,6 +9,16 @@ public class TestUser {
         System.out.println(user2);
     }
 }
-// com.jb.lombok_tutorial.Entity.User@59690aa4
-// com.jb.lombok_tutorial.Entity.User@5ecddf8f
-// com.jb.lombok_tutorial.Entity.User@3f102e87
+// User(id=0, firstName=null, lastName=null, email=null, phoneNumber=null, age=0)
+// User(id=0, firstName=Jayabalajee, lastName=S K, email=null, phoneNumber=null, age=0)
+// User(id=1, firstName=Jaya, lastName=Bala, email=jaya@gmail.com, phoneNumber=6383892010, age=22)
+
+// @ToString(includeFieldNames = false)
+// User(0, null, null, null, null, 0)
+// User(0, Jayabalajee, S K, null, null, 0)
+// User(1, Jaya, Bala, jaya@gmail.com, 6383892010, 22)
+
+// @ToString.Exclude
+// User(0, null, null, null, 0)
+// User(0, Jayabalajee, S K, null, 0)
+// User(1, Jaya, Bala, 6383892010, 22)
