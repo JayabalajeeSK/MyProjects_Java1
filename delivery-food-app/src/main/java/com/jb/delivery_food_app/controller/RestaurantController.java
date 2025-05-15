@@ -1,8 +1,11 @@
 package com.jb.delivery_food_app.controller;
 
 import com.jb.delivery_food_app.entity.MenuItem;
+import com.jb.delivery_food_app.entity.Restaurant;
 import com.jb.delivery_food_app.service.MenuItemService;
+import com.jb.delivery_food_app.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,23 +15,64 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
+    private RestaurantService restaurantService;
+
+    @Autowired
     private MenuItemService menuItemService;
 
-    // Add menu item
+    @PostMapping("/add")
+    public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant restaurant) {
+        Restaurant saved = restaurantService.createRestaurant(restaurant);
+        return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> getRestaurant(@PathVariable Long id) {
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        return ResponseEntity.ok(restaurant);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant restaurant) {
+        Restaurant updated = restaurantService.updateRestaurant(id, restaurant);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable Long id) {
+        restaurantService.deleteRestaurant(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /////////////// MENU //////////////////
+
     @PostMapping("/menu")
-    public MenuItem addMenuItem(@RequestBody MenuItem menuItem) {
-        return menuItemService.createMenuItem(menuItem);
+    public ResponseEntity<MenuItem> addMenuItem(@RequestBody MenuItem menuItem) {
+        MenuItem saved = menuItemService.createMenuItem(menuItem);
+        return ResponseEntity.ok(saved);
     }
 
-    // View all menu items of the restaurant
     @GetMapping("/menu/{restaurantId}")
-    public List<MenuItem> getMenuItems(@PathVariable Long restaurantId) {
-        return menuItemService.getMenuItemsByRestaurantId(restaurantId);
+    public ResponseEntity<List<MenuItem>> getMenuItems(@PathVariable Long restaurantId) {
+        List<MenuItem> items = menuItemService.getMenuItemsByRestaurantId(restaurantId);
+        return ResponseEntity.ok(items);
     }
 
-    // Delete menu item
+    @GetMapping("/menu/item/{menuItemId}")
+    public ResponseEntity<MenuItem> getMenuItem(@PathVariable Long menuItemId) {
+        MenuItem item = menuItemService.getMenuItemById(menuItemId);
+        return ResponseEntity.ok(item);
+    }
+
+    @PutMapping("/menu/{menuItemId}")
+    public ResponseEntity<MenuItem> updateMenuItem(@PathVariable Long menuItemId, @RequestBody MenuItem menuItem) {
+        MenuItem updated = menuItemService.updateMenuItem(menuItemId, menuItem);
+        return ResponseEntity.ok(updated);
+    }
+
     @DeleteMapping("/menu/{menuItemId}")
-    public void deleteMenuItem(@PathVariable Long menuItemId) {
+    public ResponseEntity<Void> deleteMenuItem(@PathVariable Long menuItemId) {
         menuItemService.deleteMenuItem(menuItemId);
+        return ResponseEntity.noContent().build();
     }
 }
