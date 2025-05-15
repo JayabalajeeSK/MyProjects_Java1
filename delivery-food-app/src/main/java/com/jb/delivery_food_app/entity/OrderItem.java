@@ -1,5 +1,4 @@
 package com.jb.delivery_food_app.entity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,7 +29,5 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "menu_item_id") //add that menu item id column with OrderItem Table
     private MenuItem menuItem;
-
-
 
 }

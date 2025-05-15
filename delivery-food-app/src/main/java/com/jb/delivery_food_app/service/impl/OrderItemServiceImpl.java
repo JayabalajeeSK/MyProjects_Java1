@@ -19,28 +19,32 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public List<OrderItem> getAllOrderItems() {
+    public List<OrderItem> getAllOrderItems() ///////////////////////
+    {
         return orderItemRepository.findAll();
     }
 
     @Override
-    public OrderItem getOrderItemById(Long id) {
-        return orderItemRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("OrderItem not found with ID: " + id));
+    public OrderItem getOrderItemById(Long id) /////////////////////
+    {
+        return orderItemRepository.findById(id).orElseThrow(() -> new RuntimeException("OrderItem not found with ID: " + id));
     }
 
     @Override
-    public List<OrderItem> getOrderItemsByOrderId(Long orderId) {
+    public List<OrderItem> getOrderItemsByOrderId(Long orderId) //////////////
+    {
         return orderItemRepository.findByOrder_OrderId(orderId);
     }
 
     @Override
-    public OrderItem createOrderItem(OrderItem orderItem) {
+    public OrderItem createOrderItem(OrderItem orderItem) //////////////////////
+     {
         return orderItemRepository.save(orderItem);
     }
 
     @Override
-    public void deleteOrderItem(Long id) {
+    public void deleteOrderItem(Long id) /////////////////////
+    {
         orderItemRepository.deleteById(id);
     }
 }

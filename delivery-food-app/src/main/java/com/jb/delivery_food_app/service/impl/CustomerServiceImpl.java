@@ -18,12 +18,14 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() ////////////////////
+    {
         return customerRepository.findAll();
     }
 
     @Override
-    public List<Order> getOrdersByCustomerId(Long customer_id) {
+    public List<Order> getOrdersByCustomerId(Long customer_id) //////
+    {
         Optional<Customer> customerOpt = customerRepository.findById(customer_id);
         if (customerOpt.isPresent()) {
             return customerOpt.get().getOrders(); // from the List<Order> in Customer
@@ -33,28 +35,31 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(Long customer_id) 
+    public Customer getCustomerById(Long customer_id)  //////////////////
     {
         return customerRepository.findById(customer_id).orElseThrow(() -> new RuntimeException("Customer not found with ID: " + customer_id));
     }
 
     @Override
-    public Customer createCustomer(Customer customer) {
+    public Customer createCustomer(Customer customer) ///////////////////
+    {
         return customerRepository.save(customer);
     }
 
     @Override
-    public Customer updateCustomer(Long customer_id, Customer customer) {
+    public Customer updateCustomer(Long customer_id, Customer customer) /////////////////////////
+    {
         Customer existingCustomer = getCustomerById(customer_id);
 
         existingCustomer.setCustName(customer.getCustName());
         existingCustomer.setCustEmail(customer.getCustEmail());
         existingCustomer.setCustPhone(customer.getCustPhone());
+
         return customerRepository.save(existingCustomer);
     }
 
     @Override
-    public void deleteCustomer(Long customer_id) 
+    public void deleteCustomer(Long customer_id) ///////////////////
     {
         Customer customer = getCustomerById(customer_id);
         customerRepository.delete(customer);

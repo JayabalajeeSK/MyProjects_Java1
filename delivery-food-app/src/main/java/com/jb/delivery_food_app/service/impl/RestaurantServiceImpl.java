@@ -21,13 +21,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private MenuItemRepository menuItemRepository;
 
-    @Override
-    public List<Restaurant> getAllRestaurants() {
+    @Override 
+    public List<Restaurant> getAllRestaurants() ///////////
+    {
         return restaurantRepository.findAll();
     }
 
     @Override
-    public List<MenuItem> getMenuItemsByRestaurantId(Long restaurantId) 
+    public List<MenuItem> getMenuItemsByRestaurantId(Long restaurantId) ///////////
     {
         // Assuming MenuItemRepository has a method: List<MenuItem> findByRestaurantId(Long restaurantId);
         return menuItemRepository.findByRestaurant_RestaurantId(restaurantId);
@@ -40,26 +41,29 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant createRestaurant(Restaurant restaurant) {
+    public Restaurant createRestaurant(Restaurant restaurant) ///////////////
+    {
         return restaurantRepository.save(restaurant);
     }
 
     @Override
-    public Restaurant updateRestaurant(Long restaurantId, Restaurant updatedRestaurant) {
+    public Restaurant updateRestaurant(Long restaurantId, Restaurant updatedRestaurant) //////
+    {
         Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
         if (optionalRestaurant.isPresent()) {
             Restaurant existingRestaurant = optionalRestaurant.get();
             existingRestaurant.setRestaurantName(updatedRestaurant.getRestaurantName());
             existingRestaurant.setRestaurantAddress(updatedRestaurant.getRestaurantAddress());
-            existingRestaurant.setRestaurantContact(updatedRestaurant.getRestaurantContact());
-            // update other fields as necessary
+            existingRestaurant.setRestaurantContact(updatedRestaurant.getRestaurantContact()); // update other fields as necessary
+
             return restaurantRepository.save(existingRestaurant);
         }
         return null; // or throw exception if restaurant not found
     }
 
     @Override
-    public void deleteRestaurant(Long restaurantId) {
+    public void deleteRestaurant(Long restaurantId)  ////////////////////
+    {
         restaurantRepository.deleteById(restaurantId);
     }
 }

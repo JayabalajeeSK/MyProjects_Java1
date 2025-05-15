@@ -1,7 +1,5 @@
 package com.jb.delivery_food_app.service;
-
 import java.util.List;
-
 import com.jb.delivery_food_app.entity.OrderItem;
 
 public interface OrderItemService {

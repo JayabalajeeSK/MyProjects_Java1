@@ -26,10 +26,11 @@ public class CustomerController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/register")//
+    @PostMapping("/register")// //////////////////////////////
     public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) {
         Customer savedCustomer = customerService.createCustomer(customer);
         return ResponseEntity.ok(savedCustomer);
+        // return ResponseEntity.ok("created");
     }
 
     @GetMapping("/customer/{id}")//
@@ -38,17 +39,20 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-    @PutMapping("/customer/{id}")//
+    @PutMapping("/customer/{id}")// ///////////////////////////
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         Customer updatedCustomer = customerService.updateCustomer(id, customer);
         return ResponseEntity.ok(updatedCustomer);
+        // return ResponseEntity.ok("updated");
     }
 
-    @DeleteMapping("/customer/{id}")//
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    @DeleteMapping("/customer/{id}")// //////////////////////////
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.ok("Deleted"); // 204 No Content
     }
+
+    ////////////////////////////////////
 
     @GetMapping("/menus/{restaurantId}")//
     public ResponseEntity<List<MenuItem>> getMenuItems(@PathVariable Long restaurantId) {
@@ -56,10 +60,11 @@ public class CustomerController {
         return ResponseEntity.ok(items);
     }
 
-    @PostMapping("/order")
+    @PostMapping("/order") //////////////////////////
     public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
         Order placedOrder = orderService.placeOrder(order);
         return ResponseEntity.ok(placedOrder);
+        // return ResponseEntity.ok("created");
     }
 
     @GetMapping("/order/{orderId}/status")

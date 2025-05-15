@@ -29,6 +29,4 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL) //one restaurant have many items, mapped by the variable - we used, cascade - affect all operation changes in both menuitem and rest
     private List<MenuItem> menuItems = new ArrayList<>(); // list the list of item in the menu using ArrayList
-
-
 }
