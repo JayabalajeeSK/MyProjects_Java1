@@ -19,6 +19,7 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderitem_id;
+    private int quantity;
     private double orderPrice;
     
     @ManyToOne //many order item belong to one order
