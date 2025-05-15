@@ -10,9 +10,9 @@ public interface MenuItemService {
 
     List<MenuItem> getMenuItemsByRestaurantId(Long restaurantId);
 
-    MenuItem getMenuItemById(Long id);
+    MenuItem getMenuItemById(Long itemId);
 
     MenuItem createMenuItem(MenuItem menuItem);
-    MenuItem updateMenuItem(Long id, MenuItem updatedItem);
-    void deleteMenuItem(Long id);
+    MenuItem updateMenuItem(Long itemId, MenuItem updatedItem);
+    void deleteMenuItem(Long itemId);
 }

@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
+    private Long orderId;
     private String orderStatus;
     private LocalDateTime orderedAt;
 

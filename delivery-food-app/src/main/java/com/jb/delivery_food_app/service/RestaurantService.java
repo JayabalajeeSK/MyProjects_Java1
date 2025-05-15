@@ -11,10 +11,10 @@ public interface RestaurantService {
 
     List<MenuItem> getMenuItemsByRestaurantId(Long restaurantId);
 
-    Restaurant getRestaurantById(Long id);
+    Restaurant getRestaurantById(Long restaurantId);
     
     Restaurant createRestaurant(Restaurant restaurant);
-    Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant);
-    void deleteRestaurant(Long id);
+    Restaurant updateRestaurant(Long restaurantId, Restaurant updatedRestaurant);
+    void deleteRestaurant(Long restaurantId);
 
 }

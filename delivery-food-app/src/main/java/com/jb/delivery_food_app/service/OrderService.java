@@ -15,4 +15,5 @@ public interface OrderService {
     Order placeOrder(Order order); // Place a new order
     Order updateOrderStatus(Long orderId, String newStatus); // Change order status
     void deleteOrder(Long orderId); // Cancel/Delete an order
+
 }

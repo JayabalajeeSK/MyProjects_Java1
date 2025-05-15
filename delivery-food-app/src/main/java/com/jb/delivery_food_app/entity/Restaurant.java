@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long restaurant_id;
+    private Long restaurantId;
     private String restaurantName;
     private String restaurantAddress;
     private String restaurantContact;

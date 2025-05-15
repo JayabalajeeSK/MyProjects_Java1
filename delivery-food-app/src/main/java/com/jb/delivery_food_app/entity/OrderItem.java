@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderitem_id;
+    private Long orderitemId;
     private int quantity;
     private double orderPrice;
     

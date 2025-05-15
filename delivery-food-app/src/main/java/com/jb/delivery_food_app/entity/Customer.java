@@ -22,11 +22,12 @@ import lombok.NoArgsConstructor;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customer_id;
+    private Long customerId;
     private String custName;
     private String custEmail;
     private String custPhone;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL) //one cust have many order, mapped by the variable - we used, cascade - affect all operation changes in both cust and Orders
     private List<Order> orders = new ArrayList<>();
+
 }
