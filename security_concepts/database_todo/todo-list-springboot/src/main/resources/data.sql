@@ -1,0 +1,5 @@
+-- INSERT INTO user (id, username, password, role)
+-- VALUES (1, 'admin', '$2a$10$q9u/2z6OKoCJ/IAUjDYD2u1nEouT7OpJr6cBfH4unQ14qHkO45sTa', 'ADMIN');
+-- INSERT INTO user (id, username, password, role)
+-- VALUES (2, 'user', '$2a$10$q9u/2z6OKoCJ/IAUjDYD2u1nEouT7OpJr6cBfH4unQ14qHkO45sTa', 'USER');
+--used raw data
