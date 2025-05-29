@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User 
 {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
- @Column(unique=true, nullable=false)
- private String username;
+    @Column(unique=true, nullable=false)
+    private String username;
 
- @Column(nullable=false)
- private String password;
+    @Column(nullable=false)
+    private String password;
 
- @Column(nullable=false)
- private String role; // ROLE_ADMIN, ROLE_STUDENT
+    @Column(nullable=false)
+    private String role; // ROLE_ADMIN, ROLE_STUDENT
 }
