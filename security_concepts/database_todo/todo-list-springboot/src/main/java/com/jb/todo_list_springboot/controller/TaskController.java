@@ -19,7 +19,7 @@ public class TaskController {
     private TaskService taskService;
 
     // USER: Get tasks by username
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")//
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")//
     @GetMapping("/user/tasks")
     public List<Task> getUserTasks(@RequestParam String username) {
         return taskService.getTasksByUsername(username);
