@@ -25,7 +25,7 @@ public class Question
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne //many question belong to one quiz
     @JoinColumn(name="quiz_id")
     private Quiz quiz;
 

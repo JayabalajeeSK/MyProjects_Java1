@@ -36,6 +36,6 @@ public class Quiz
     private int maxAttempts;
 
     // Bi-directional (optional)
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL) //
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL) //one quiz contains multiple questions
     private List<Question> questions;
 }
