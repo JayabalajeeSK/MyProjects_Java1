@@ -6,6 +6,7 @@ import com.jb.online_quiz_app.entity.QuizAttempt;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long> 
@@ -18,5 +19,6 @@ public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long>
 
     // Filter by quiz, user, and date range
     List<QuizAttempt> findByQuizIdAndUserIdAndEndTimeBetween(Long quizId, Long userId, LocalDateTime start, LocalDateTime end);
+    Optional<QuizAttempt> findByUserIdAndQuizIdAndSubmittedFalse(Long userId, Long quizId);
 
 }

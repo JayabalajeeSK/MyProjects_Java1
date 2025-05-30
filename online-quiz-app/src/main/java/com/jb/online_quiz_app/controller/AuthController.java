@@ -1,8 +1,10 @@
 package com.jb.online_quiz_app.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.jb.online_quiz_app.dto.JwtAuthResponse;
 import com.jb.online_quiz_app.service.AuthService;
 
 import java.util.Map;
@@ -25,11 +27,20 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> req) 
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody Map<String, String> req) 
     {
         String username = req.get("username");
         String password = req.get("password");
-        String response = authService.loginUser(username, password);
-        return ResponseEntity.ok(response);
+
+        String token = authService.loginUser(username, password);
+
+        if (token.equals("Invalid credentials")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new JwtAuthResponse(null, "Invalid credentials"));
+        }
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse(token, "Login successful");
+        return ResponseEntity.ok(jwtAuthResponse);
     }
+
 }

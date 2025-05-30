@@ -2,7 +2,7 @@ package com.jb.online_quiz_app.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
+// import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.jb.online_quiz_app.entity.Notification;
@@ -10,7 +10,7 @@ import com.jb.online_quiz_app.entity.Quiz;
 import com.jb.online_quiz_app.entity.QuizAttempt;
 import com.jb.online_quiz_app.entity.User;
 import com.jb.online_quiz_app.repository.NotificationRepository;
-import com.jb.online_quiz_app.repository.QuizRepository;
+// import com.jb.online_quiz_app.repository.QuizRepository;
 import com.jb.online_quiz_app.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -23,8 +23,13 @@ public class NotificationService
 
     private final NotificationRepository notificationRepository;
     private final JavaMailSender mailSender;
-    private final QuizRepository quizRepository;
+    // private final QuizRepository quizRepository;
     private final UserRepository userRepository;
+
+    public List<Notification> getNotificationsByUsername(String username) 
+    {
+        return notificationRepository.findByUser_Username(username);
+    }
 
     // Send quiz result notification & email
     public void sendResultNotification(QuizAttempt attempt) 
@@ -74,7 +79,7 @@ public class NotificationService
     // }
 
     // Helper method to save notification and send email
-    private void saveAndSendNotification(User user, String message, String type) 
+    public void saveAndSendNotification(User user, String message, String type) 
     {
         // Save notification in DB
         Notification notification = Notification.builder()
@@ -98,19 +103,19 @@ public class NotificationService
         }
     }
 
-    // Scheduled task to announce new quizzes created in last 24 hours
-    @Scheduled(cron = "0 0 10 * * ?")  // every day at 10:00 AM
-    public void scheduledNotifyNewQuizzes() 
-    {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime yesterday = now.minusDays(1);
+    // // Scheduled task to announce new quizzes created in last 24 hours
+    // @Scheduled(cron = "0 0 10 * * ?")  // every day at 10:00 AM
+    // public void scheduledNotifyNewQuizzes() 
+    // {
+    //     LocalDateTime now = LocalDateTime.now();
+    //     LocalDateTime yesterday = now.minusDays(1);
 
-        // Find quizzes created in last 24 hours - make sure to add 'createdAt' field in Quiz entity
-        List<Quiz> newQuizzes = quizRepository.findByCreatedAtBetween(yesterday, now);
+    //     // Find quizzes created in last 24 hours - make sure to add 'createdAt' field in Quiz entity
+    //     List<Quiz> newQuizzes = quizRepository.findByCreatedAtBetween(yesterday, now);
 
-        for (Quiz quiz : newQuizzes) 
-        {
-            notifyNewQuiz(quiz);
-        }
-    }
+    //     for (Quiz quiz : newQuizzes) 
+    //     {
+    //         notifyNewQuiz(quiz);
+    //     }
+    // }
 }
