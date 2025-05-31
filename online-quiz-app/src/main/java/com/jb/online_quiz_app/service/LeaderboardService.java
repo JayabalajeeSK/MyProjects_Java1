@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import com.jb.online_quiz_app.entity.Leaderboard;
 import com.jb.online_quiz_app.repository.LeaderboardRepository;
 @Service
-public class LeaderboardService {
+public class LeaderboardService 
+{
 
     @Autowired
     private LeaderboardRepository leaderboardRepository;

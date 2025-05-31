@@ -35,7 +35,6 @@ public class AuthService
             return "Username already exists";
         }
 
-        // ✅ Encode password before saving
         String encodedPassword = passwordEncoder.encode(password);
 
         User user = User.builder()
@@ -48,21 +47,22 @@ public class AuthService
         return "User registered successfully";
     }
 
-    // Login user by comparing plain-text password
+    // login user with plain-text password
     public String loginUser(String username, String password) 
     {
-        try {
-            // Authenticate user
+        try 
+        {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            // Generate JWT using authentication
             String token = jwtTokenProvider.generateToken(authentication);
 
             return "Bearer: " + token;
 
-        } catch (AuthenticationException ex) {
+        } 
+        catch (AuthenticationException ex) 
+        {
             return "Invalid credentials";
         }
 }

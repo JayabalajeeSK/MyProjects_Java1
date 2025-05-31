@@ -27,17 +27,24 @@ public class AttemptController
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
     public ResponseEntity<List<QuizAttempt>> getAttemptsByUser(
             @RequestParam(required = false) Long userId,
-            @RequestParam(required = false) Long quizId) {
+            @RequestParam(required = false) Long quizId) 
+    {
 
-        if (userId != null && quizId != null) {
+        if (userId != null && quizId != null) 
+        {
             return ResponseEntity.ok(attemptService.getAttemptsByQuizAndUser(quizId, userId));
-        } else if (userId != null) {
+        } 
+        else if (userId != null) 
+        {
             return ResponseEntity.ok(attemptService.getAttemptsByUser(userId));
-        } else if (quizId != null) {
+        } 
+        else if (quizId != null) 
+        {
             return ResponseEntity.ok(attemptService.getAttemptsByQuiz(quizId));
-        } else {
+        } 
+        else 
+        {
             return ResponseEntity.badRequest().build(); // No parameters passed
         }
-    }
-    
+    }   
 }

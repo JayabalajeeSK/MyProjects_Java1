@@ -10,6 +10,5 @@ import com.jb.online_quiz_app.entity.Quiz;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> 
 {
-    //List<Quiz> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
-
+    //List<Quiz> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end); //cheanged
 }

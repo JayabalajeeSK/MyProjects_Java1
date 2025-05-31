@@ -17,7 +17,6 @@ import com.jb.online_quiz_app.service.LeaderboardService;
 @RequestMapping("/api/quizzes")
 public class LeaderboardController 
 {
-
     @Autowired
     private LeaderboardService leaderboardService;
     

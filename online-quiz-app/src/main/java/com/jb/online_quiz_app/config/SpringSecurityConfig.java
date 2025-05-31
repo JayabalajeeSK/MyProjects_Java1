@@ -28,30 +28,35 @@ public class SpringSecurityConfig {
 
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private JwtauthenticationFilter jwtauthenticationFilter;
+
     public SpringSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtauthenticationFilter jwtauthenticationFilter) {
+            JwtauthenticationFilter jwtauthenticationFilter) 
+    {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtauthenticationFilter = jwtauthenticationFilter;
     }
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() 
+    {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception 
+    {
         return configuration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
+    {
         http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authorize -> {
+            .authorizeHttpRequests(authorize -> 
+            {
                 // authorize.requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN");
                 // authorize.requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN");
                 // authorize.requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN");
-                // authorize.requestMatchers(HttpMethod.PATCH, "/api/**").hasAnyRole("ADMIN", "USER");
                 // authorize.requestMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER");
                 // authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll();
 

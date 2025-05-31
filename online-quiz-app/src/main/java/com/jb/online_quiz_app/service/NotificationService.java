@@ -56,32 +56,9 @@ public class NotificationService
         }
     }
 
-    // // Scheduled reminder for quizzes ending soon (e.g., 24 hours before deadline)
-    // @Scheduled(cron = "0 0 9 * * ?") // every day at 9 AM server time
-    // public void sendQuizDeadlineReminders() {
-    //     LocalDateTime now = LocalDateTime.now();
-    //     LocalDateTime in24Hours = now.plusHours(24);
 
-    //     List<Quiz> quizzesEndingSoon = quizRepository.findByDeadlineBetween(now, in24Hours);
-
-    //     for (Quiz quiz : quizzesEndingSoon) {
-    //         List<User> enrolledUsers = userRepository.findUsersEnrolledInQuiz(quiz.getId()); 
-    //         // Implement this method or adapt based on your user-quiz relationship
-
-    //         String message = String.format("Reminder: Quiz '%s' ends on %s. Submit your attempt soon!",
-    //                 quiz.getTitle(),
-    //                 quiz.getDeadline().toString());
-
-    //         for (User user : enrolledUsers) {
-    //             saveAndSendNotification(user, message, "REMINDER");
-    //         }
-    //     }
-    // }
-
-    // Helper method to save notification and send email
     public void saveAndSendNotification(User user, String message, String type) 
     {
-        // Save notification in DB
         Notification notification = Notification.builder()
                                                 .user(user)
                                                 .message(message)
@@ -91,7 +68,7 @@ public class NotificationService
 
         notificationRepository.save(notification);
 
-        // Send email
+        // send email
         if (user.getUsername() != null && !user.getUsername().isEmpty()) 
         {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -103,19 +80,4 @@ public class NotificationService
         }
     }
 
-    // // Scheduled task to announce new quizzes created in last 24 hours
-    // @Scheduled(cron = "0 0 10 * * ?")  // every day at 10:00 AM
-    // public void scheduledNotifyNewQuizzes() 
-    // {
-    //     LocalDateTime now = LocalDateTime.now();
-    //     LocalDateTime yesterday = now.minusDays(1);
-
-    //     // Find quizzes created in last 24 hours - make sure to add 'createdAt' field in Quiz entity
-    //     List<Quiz> newQuizzes = quizRepository.findByCreatedAtBetween(yesterday, now);
-
-    //     for (Quiz quiz : newQuizzes) 
-    //     {
-    //         notifyNewQuiz(quiz);
-    //     }
-    // }
 }

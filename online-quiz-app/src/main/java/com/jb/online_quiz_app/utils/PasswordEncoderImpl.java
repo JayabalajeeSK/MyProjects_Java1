@@ -10,5 +10,4 @@ public class PasswordEncoderImpl
         System.out.println(passwordEncoder.encode("user")); //$2a$10$/grCbR8qHykIb0emm3czHeXY7qXNUL0Y1Vkd51SzKpDPuTe3ubPuu
         System.out.println(passwordEncoder.encode("admin")); //$2a$10$qSmhGJy1GbK0lxU9x..81uTTqooaF/tq85ymZWsfUKgX3kOlrUqaG
     }
-
 }

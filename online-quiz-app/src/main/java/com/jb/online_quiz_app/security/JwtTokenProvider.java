@@ -35,7 +35,7 @@ public class JwtTokenProvider
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    //get username from jwt token
+    //jwt token by username - email
     public String getUsername(String token)
     {
         Claims claims= Jwts.parserBuilder()
@@ -56,6 +56,4 @@ public class JwtTokenProvider
             .parse(token);
         return true;
     }
-
-
 }

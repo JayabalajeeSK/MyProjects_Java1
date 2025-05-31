@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 @Entity
 @Table(name = "quizzes")
 public class Quiz 
@@ -34,8 +35,7 @@ public class Quiz
     private int durationMinutes;
 
     private int maxAttempts;
-
-    // Bi-directional (optional)
+    
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL) //one quiz contains multiple questions
     private List<Question> questions;
 }

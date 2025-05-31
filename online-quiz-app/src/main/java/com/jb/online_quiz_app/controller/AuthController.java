@@ -11,7 +11,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController 
+{
 
 	@Autowired
     private AuthService authService;
@@ -21,7 +22,7 @@ public class AuthController {
     {
         String username = req.get("username");
         String password = req.get("password");
-        String role = req.get("role"); // Example: "ADMIN" or "STUDENT"
+        String role = req.get("role"); // "ROLE_ADMIN, STUDENT
         String response = authService.registerUser(username, password, role);
         return ResponseEntity.ok(response);
     }
@@ -34,7 +35,8 @@ public class AuthController {
 
         String token = authService.loginUser(username, password);
 
-        if (token.equals("Invalid credentials")) {
+        if (token.equals("Invalid credentials")) 
+        {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new JwtAuthResponse(null, "Invalid credentials"));
         }

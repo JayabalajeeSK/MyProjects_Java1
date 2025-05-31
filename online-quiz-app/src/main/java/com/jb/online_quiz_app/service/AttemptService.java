@@ -39,6 +39,5 @@ public class AttemptService {
     public List<QuizAttempt> getAttemptsFiltered(Long quizId, Long userId, LocalDateTime start, LocalDateTime end) 
     {
         return quizAttemptRepository.findByQuizIdAndUserIdAndEndTimeBetween(quizId, userId, start, end);
-    }
-    
+    }    
 }

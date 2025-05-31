@@ -25,29 +25,33 @@ public class QuizController {
     // Create a new quiz
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) {
+    public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) 
+    {
         return ResponseEntity.ok(quizService.createQuiz(quiz));
     }
 
     // Update an existing quiz by ID
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
+    public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) 
+    {
         return ResponseEntity.ok(quizService.updateQuiz(id, quiz));
     }
 
     // Delete a quiz by ID
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteQuiz(@PathVariable Long id) 
+    {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Get all quizzes (publicly accessible)
+    // Get all quizzes -public
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
-    public ResponseEntity<List<Quiz>> getAllQuizzes() {
+    public ResponseEntity<List<Quiz>> getAllQuizzes() 
+    {
         return ResponseEntity.ok(quizService.getAllQuizzes());
     }
 

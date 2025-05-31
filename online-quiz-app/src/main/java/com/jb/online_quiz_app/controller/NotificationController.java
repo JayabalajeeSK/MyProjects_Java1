@@ -25,14 +25,13 @@ public class NotificationController
     @Autowired
     private UserRepository userRepository;
 
-    // POST /api/notifications/send
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("/send")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> sendNotification(@RequestBody Notification notification) 
     {
         User user = notification.getUser();
 
-        // Validate user exists in DB by username
         Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
         if (optionalUser.isEmpty()) 
         {
@@ -49,9 +48,8 @@ public class NotificationController
         return ResponseEntity.ok("Notification sent successfully");
     }
 
-    // GET /api/notifications?username=someuser@example.com
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Notification>> getNotifications(@RequestParam String username) 
     {
         Optional<User> optionalUser = userRepository.findByUsername(username);

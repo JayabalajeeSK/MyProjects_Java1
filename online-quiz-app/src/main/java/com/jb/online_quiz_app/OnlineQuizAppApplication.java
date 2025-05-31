@@ -13,5 +13,4 @@ public class OnlineQuizAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OnlineQuizAppApplication.class, args);
 	}
-
 }

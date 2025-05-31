@@ -21,16 +21,14 @@ public class QuizService {
     // 2. Quiz Management (Admin)
     //---------------------------------------------------------------------------------------------
 
-    /**
-     * Create a new quiz
-     */
+ 
+    //Create Quiz
     public Quiz createQuiz(Quiz quiz) {
         return quizRepository.save(quiz);
     }
 
-    /**
-     * Update an existing quiz by ID
-     */
+
+    // Update Quiz
     public Quiz updateQuiz(Long quizId, Quiz updatedQuiz) {
         Quiz existing = getQuizById(quizId);
 
@@ -39,7 +37,7 @@ public class QuizService {
         existing.setDurationMinutes(updatedQuiz.getDurationMinutes());
         existing.setMaxAttempts(updatedQuiz.getMaxAttempts());
 
-        // Update questions if provided
+
         if (updatedQuiz.getQuestions() != null && !updatedQuiz.getQuestions().isEmpty()) {
             existing.getQuestions().clear();
             for (Question q : updatedQuiz.getQuestions()) {
@@ -51,9 +49,7 @@ public class QuizService {
         return quizRepository.save(existing);
     }
 
-    /**
-     * Delete a quiz by ID
-     */
+    //deleet quiz
     public void deleteQuiz(Long quizId) {
         if (!quizRepository.existsById(quizId)) {
             throw new RuntimeException("Quiz not found with ID: " + quizId);
@@ -61,16 +57,12 @@ public class QuizService {
         quizRepository.deleteById(quizId);
     }
 
-    /**
-     * Retrieve all quizzes
-     */
+    //Retrieve all quizzes
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
 
-    /**
-     * Retrieve quiz by ID
-     */
+    //Retrieve quiz by ID
     public Quiz getQuizById(Long quizId) {
         return quizRepository.findById(quizId)
             .orElseThrow(() -> new RuntimeException("Quiz not found"));

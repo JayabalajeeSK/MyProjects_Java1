@@ -18,7 +18,6 @@ import com.jb.online_quiz_app.service.QuestionService;
 @RequestMapping("/api/quizzes")
 public class QuestionController 
 {
-
     @Autowired
     private QuestionService questionService;
 

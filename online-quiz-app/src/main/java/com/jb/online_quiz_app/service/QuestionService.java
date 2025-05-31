@@ -15,15 +15,16 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuizService quizService;
 
-    public Question addQuestionToQuiz(Long quizId, Question question) {
+    public Question addQuestionToQuiz(Long quizId, Question question) 
+    {
         Quiz quiz = quizService.getQuizById(quizId);
         question.setQuiz(quiz);
         return questionRepository.save(question);
     }
 
-    public Question updateQuestion(Long questionId, Question updated) {
-        Question question = questionRepository.findById(questionId)
-            .orElseThrow(() -> new RuntimeException("Question not found"));
+    public Question updateQuestion(Long questionId, Question updated) 
+    {
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException("Question not found"));
 
         question.setQuestionText(updated.getQuestionText());
         question.setOptionA(updated.getOptionA());
@@ -35,8 +36,10 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public void deleteQuestion(Long questionId) {
-        if (!questionRepository.existsById(questionId)) {
+    public void deleteQuestion(Long questionId) 
+    {
+        if (!questionRepository.existsById(questionId)) 
+        {
             throw new RuntimeException("Question not found with ID: " + questionId);
         }
         questionRepository.deleteById(questionId);
