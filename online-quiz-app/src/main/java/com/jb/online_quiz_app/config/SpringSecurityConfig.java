@@ -58,6 +58,8 @@ public class SpringSecurityConfig {
                 authorize.requestMatchers("/api/auth/**").permitAll(); // login & register
                 authorize.requestMatchers("/api/quizzes/leaderboard/**").permitAll(); //public leaderboard
                 authorize.anyRequest().authenticated();
+                
+                
             })
             .httpBasic(Customizer.withDefaults());
 

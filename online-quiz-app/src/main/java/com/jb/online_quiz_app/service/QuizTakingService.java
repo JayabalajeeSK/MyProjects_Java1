@@ -52,8 +52,7 @@ public class QuizTakingService {
     @Autowired
     private LeaderboardRepository leaderboardRepository;
 
-    @Autowired
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     // 3. Quiz Taking (Student)
 
@@ -253,104 +252,107 @@ public class QuizTakingService {
     /**
      * Final quiz submission and evaluation
      */
-    public ResponseEntity<?> submitQuiz(Long quizID, User loggedInUser) {
-        // 1. Find QuizAttempt where user = loggedInUser, quiz = quizID, submitted = false
-        Optional<QuizAttempt> optAttempt = quizAttemptRepository.findByUserIdAndQuizIdAndSubmittedFalse(loggedInUser.getId(), quizID);
-        if (optAttempt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Quiz not started or already submitted.");
-        }
-        QuizAttempt attempt = optAttempt.get();
+public ResponseEntity<?> submitQuiz(Long quizID, UserDetails userDetails) {
+    // ✅ 1. Get actual User entity from username
+    Optional<User> optionalUser = userRepository.findByUsername(userDetails.getUsername());
+    if (optionalUser.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found.");
+    }
+    User loggedInUser = optionalUser.get();
 
-        // 2. Check if current time is beyond allowed duration
-        LocalDateTime startTime = attempt.getStartTime();
-        Quiz quiz = attempt.getQuiz();
-        int durationMinutes = quiz.getDurationMinutes();
-        LocalDateTime now = LocalDateTime.now();
-
-        if (startTime.plusMinutes(durationMinutes).isBefore(now)) {
-            // Time ended, cannot submit again after duration expired
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Time ended, please submit your answers.");
-        }
-
-        // 3. Calculate score based on last selected option per question (max attempt for that question)
-        List<StudentAnswer> answers = attempt.getAnswers();
-        Map<Long, StudentAnswer> lastAnswerPerQuestion = new HashMap<>();
-
-        // Group by question, pick last attempt based on id (assuming higher id means later attempt)
-        for (StudentAnswer ans : answers) {
-            long qId = ans.getQuestion().getId();
-            if (!lastAnswerPerQuestion.containsKey(qId) || ans.getId() > lastAnswerPerQuestion.get(qId).getId()) {
-                lastAnswerPerQuestion.put(qId, ans);
-            }
-        }
-
-        int score = 0;
-        for (StudentAnswer ans : lastAnswerPerQuestion.values()) {
-            String selected = ans.getSelectedOption();
-            String correct = ans.getQuestion().getCorrectOption();
-            if (selected != null && selected.equalsIgnoreCase(correct)) {
-                score++;
-            }
-        }
-
-        // 4. Calculate duration in seconds
-        long durationSeconds = java.time.Duration.between(startTime, now).getSeconds();
-
-        // 5. Update QuizAttempt
-        attempt.setEndTime(now);
-        attempt.setScore(score);
-        attempt.setSubmitted(true);
-        quizAttemptRepository.save(attempt);
-
-        // 6. Update Leaderboard or create if not exists
-        Optional<Leaderboard> optLeaderboard = leaderboardRepository.findByUserIdAndQuizId(loggedInUser.getId(), quizID);
-        Leaderboard leaderboard;
-        if (optLeaderboard.isPresent()) {
-            leaderboard = optLeaderboard.get();
-            leaderboard.setScore(score);
-            leaderboard.setDuration(durationSeconds);
-        } else {
-            leaderboard = Leaderboard.builder()
-                    .quiz(quiz)
-                    .user(loggedInUser)
-                    .score(score)
-                    .duration(durationSeconds)
-                    .build();
-        }
-        leaderboardRepository.save(leaderboard);
-
-        // 7. Calculate pass or fail (pass mark = total questions / 2)
-        int totalQuestions = quiz.getQuestions().size();
-        String passFail = (score >= totalQuestions / 2) ? "pass" : "fail";
-
-        // 8. Schedule sending email notification after 10 sec delay
-        scheduler.schedule(() -> {
-            sendResultNotification(attempt);
-        }, 10, TimeUnit.SECONDS);
-
-        // 9. Return response with score and pass/fail info
-        Map<String, Object> response = new HashMap<>();
-        response.put("score", score);
-        response.put("totalQuestions", totalQuestions);
-        response.put("passFail", passFail);
-        response.put("durationSeconds", durationSeconds);
-
-        return ResponseEntity.ok(response);
+    // ✅ 2. Get quiz attempt
+    Optional<QuizAttempt> optAttempt = quizAttemptRepository.findByUserIdAndQuizIdAndSubmittedFalse(loggedInUser.getId(), quizID);
+    if (optAttempt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Quiz not started or already submitted.");
     }
 
-    // Modified sendResultNotification method to use email (assuming username is email)
-    public void sendResultNotification(QuizAttempt attempt) {
-        String message = String.format("Dear %s, you scored %d in quiz '%s'.",
-                attempt.getUser().getUsername(), // assuming username is email
-                attempt.getScore(),
-                attempt.getQuiz().getTitle());
+    QuizAttempt attempt = optAttempt.get();
+    Quiz quiz = attempt.getQuiz();
+    LocalDateTime now = LocalDateTime.now();
 
-        saveAndSendNotification(attempt.getUser(), message, "RESULT");
+    // ✅ 3. Check if time exceeded
+    LocalDateTime startTime = attempt.getStartTime();
+    int durationMinutes = quiz.getDurationMinutes();
+    if (startTime.plusMinutes(durationMinutes).isBefore(now)) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Time ended, please submit your answers.");
     }
 
-    // Stub: Implement your actual notification sending here
-    private void saveAndSendNotification(User user, String message, String type) {
-        System.out.println("Sending notification to " + user.getUsername() + ": " + message);
+    // ✅ 4. Get last answer per question
+    List<StudentAnswer> answers = attempt.getAnswers();
+    Map<Long, StudentAnswer> lastAnswerPerQuestion = new HashMap<>();
+    for (StudentAnswer ans : answers) {
+        long qId = ans.getQuestion().getId();
+        if (!lastAnswerPerQuestion.containsKey(qId) || ans.getId() > lastAnswerPerQuestion.get(qId).getId()) {
+            lastAnswerPerQuestion.put(qId, ans);
+        }
     }
+
+    // ✅ 5. Score calculation
+    int score = 0;
+    for (StudentAnswer ans : lastAnswerPerQuestion.values()) {
+        String selected = ans.getSelectedOption();
+        String correct = ans.getQuestion().getCorrectOption();
+        if (selected != null && selected.equalsIgnoreCase(correct)) {
+            score++;
+        }
+    }
+
+    // ✅ 6. Duration
+    long durationSeconds = java.time.Duration.between(startTime, now).getSeconds();
+
+    // ✅ 7. Update QuizAttempt
+    attempt.setEndTime(now);
+    attempt.setScore(score);
+    attempt.setSubmitted(true);
+    quizAttemptRepository.save(attempt);
+
+    // ✅ 8. Update/Create Leaderboard
+    Optional<Leaderboard> optLeaderboard = leaderboardRepository.findByUserIdAndQuizId(loggedInUser.getId(), quizID);
+    Leaderboard leaderboard;
+    if (optLeaderboard.isPresent()) {
+        leaderboard = optLeaderboard.get();
+        leaderboard.setScore(score);
+        leaderboard.setDuration(durationSeconds);
+    } else {
+        leaderboard = Leaderboard.builder()
+                .quiz(quiz)
+                .user(loggedInUser)
+                .score(score)
+                .duration(durationSeconds)
+                .build();
+    }
+    leaderboardRepository.save(leaderboard);
+
+    // ✅ 9. Pass/Fail
+    int totalQuestions = quiz.getQuestions().size();
+    String passFail = (score >= totalQuestions / 2) ? "pass" : "fail";
+
+    // ✅ 10. Schedule email notification
+    scheduler.schedule(() -> {
+        sendResultNotification(attempt);
+    }, 10, TimeUnit.SECONDS);
+
+    // ✅ 11. Response
+    Map<String, Object> response = new HashMap<>();
+    response.put("score", score);
+    response.put("totalQuestions", totalQuestions);
+    response.put("passFail", passFail);
+    response.put("durationSeconds", durationSeconds);
+
+    return ResponseEntity.ok(response);
+}
+public void sendResultNotification(QuizAttempt attempt) {
+    String message = String.format("Dear %s, you scored %d in quiz '%s'.",
+            attempt.getUser().getUsername(),
+            attempt.getScore(),
+            attempt.getQuiz().getTitle());
+
+    saveAndSendNotification(attempt.getUser(), message, "RESULT");
+}
+
+private void saveAndSendNotification(User user, String message, String type) {
+    System.out.println("Sending notification to " + user.getUsername() + ": " + message);
+}
+
     
 }

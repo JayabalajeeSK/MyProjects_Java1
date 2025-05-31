@@ -15,5 +15,6 @@ public interface LeaderboardRepository extends JpaRepository<Leaderboard, Long>
     List<Leaderboard> findAllByOrderByScoreDescDurationAsc();
     List<Leaderboard> findTop10ByQuizIdOrderByScoreDescDurationAsc(Long quizId);
     List<Leaderboard> findTop10ByOrderByScoreDescDurationAsc();
-    Optional<Leaderboard> findByUserIdAndQuizId(Long userId, Long quizId);
+
+    Optional<Leaderboard> findByUserIdAndQuizId(Long id, Long quizID);
 }

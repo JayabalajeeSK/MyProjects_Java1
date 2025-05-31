@@ -39,6 +39,7 @@ public class QuizTakingController {
 
     // Get question by for a particular quiz (Student)
     @GetMapping("/{quizId}/question/showNext")
+    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
     public ResponseEntity<Question> showNextQuestion(@PathVariable Long quizId, Principal principal) 
     {
         String username = principal.getName();
@@ -47,6 +48,7 @@ public class QuizTakingController {
     }
 
     @GetMapping("/{quizId}/question/showPrevious")
+    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
     public ResponseEntity<Question> showPreviousQuestion(@PathVariable Long quizId, Principal principal) 
     {
         String username = principal.getName();
@@ -55,8 +57,8 @@ public class QuizTakingController {
     }
 
     // Submit quiz attempt (POST)
-    @PreAuthorize("hasRole('STUDENT')")
         @PostMapping("/{quizId}/answer")
+        @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
     public ResponseEntity<?> answerQuestion(@PathVariable Long quizId,
                                             @AuthenticationPrincipal UserDetails userDetails,
                                             @RequestBody StudentAnswer answerRequest) 
@@ -65,12 +67,12 @@ public class QuizTakingController {
     }
 
     // Final quiz result (GET) – returns score, pass/fail status
-    @PostMapping("/{quizID}/submit")
-    public ResponseEntity<?> submitQuiz(
-            @PathVariable Long quizID,
-            @AuthenticationPrincipal User loggedInUser
-    ) {
-        return quizTakingService.submitQuiz(quizID, loggedInUser);
+    @PostMapping("/{quizId}/submit")
+    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    public ResponseEntity<?> submitQuiz(@PathVariable Long quizId,
+                                        @AuthenticationPrincipal UserDetails userDetails) {
+        return quizTakingService.submitQuiz(quizId, userDetails);
     }
+
     
 }
