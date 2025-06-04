@@ -50,34 +50,34 @@ public class QuizService
     }
 
 
-public Integer calculateQuizResult(Long id, List<Response> responses) {
-    Quiz quiz = quizRepository.findById(id).orElse(null);
-    if (quiz == null) {
-        return 0;
-    }
+    public Integer calculateQuizResult(Long id, List<Response> responses) {
+        Quiz quiz = quizRepository.findById(id).orElse(null);
+        if (quiz == null) {
+            return 0;
+        }
 
-    List<Question> questions = quiz.getQuestions();
+        List<Question> questions = quiz.getQuestions();
 
-    // Create a Map of questionId to Question for quick lookup
-    Map<Long, Question> questionMap = new HashMap<>();
-    for (Question q : questions) 
-    {
-        questionMap.put(q.getId(), q);
-    }
+        // Create a Map of questionId to Question for quick lookup
+        Map<Long, Question> questionMap = new HashMap<>();
+        for (Question q : questions) 
+        {
+            questionMap.put(q.getId(), q);
+        }
 
-    int right = 0;
+        int right = 0;
 
-    for (Response response : responses) {
-        Question question = questionMap.get(response.getId());
-        if (question != null) {
-            if (response.getResponse() != null && response.getResponse().equals(question.getRightAnswer())) {
-                right++;
+        for (Response response : responses) {
+            Question question = questionMap.get(response.getId());
+            if (question != null) {
+                if (response.getResponse() != null && response.getResponse().equals(question.getRightAnswer())) {
+                    right++;
+                }
             }
         }
-    }
 
-    return right;
-}
+        return right;
+    }
 
 
 }

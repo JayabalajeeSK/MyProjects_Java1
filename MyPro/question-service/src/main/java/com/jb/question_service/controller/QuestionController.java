@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.question_service.entity.Question;
+import com.jb.question_service.entity.QuestionWrapper;
+import com.jb.question_service.entity.Response;
 import com.jb.question_service.service.QuestionService;
 
 @RestController
@@ -50,7 +53,6 @@ public class QuestionController
 	public ResponseEntity<List<Question>>  getAllQuestions()
 	{
 		return ResponseEntity.ok(questionService.getAllQuestions());
-		
 	}
 
 	@GetMapping("/category/{category}")
@@ -64,4 +66,33 @@ public class QuestionController
 	{
 		return ResponseEntity.ok(questionService.getQuestionsByDifficultyLevel(difficultyLevel));
 	}
+
+	//--------------------------------
+
+	@GetMapping("/generate")
+	public ResponseEntity<List<Long>> getQuestionsForQuiz(
+			@RequestParam String categoryName,
+			@RequestParam Integer numQuestions) {
+		
+		List<Long> questionIds = questionService.getQuestionsForQuiz(categoryName, numQuestions);
+		return ResponseEntity.ok(questionIds);
+	}
+
+
+
+	@PostMapping("/getQuestion")
+	public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Long> questionIds)
+	{
+		return ResponseEntity.ok(questionService.getQuestionsFromID(questionIds));
+
+	}
+
+
+	@PostMapping("/getScore")
+    public Integer getScore(@RequestBody List<Response> responses)
+    {
+        return questionService.getScore(responses);
+
+    }
+
 }
