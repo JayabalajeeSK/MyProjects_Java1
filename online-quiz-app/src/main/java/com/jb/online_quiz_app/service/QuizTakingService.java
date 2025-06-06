@@ -51,6 +51,9 @@ public class QuizTakingService {
 
     @Autowired
     private LeaderboardRepository leaderboardRepository;
+    
+    @Autowired
+    private NotificationService notificationService;
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -277,7 +280,7 @@ public class QuizTakingService {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Time ended, please submit your answers.");
         }
 
-        // get last answer per question
+        //  get last answer per question
         List<StudentAnswer> answers = attempt.getAnswers();
         Map<Long, StudentAnswer> lastAnswerPerQuestion = new HashMap<>();
         for (StudentAnswer ans : answers) 
@@ -289,7 +292,7 @@ public class QuizTakingService {
             }
         }
 
-        // ✅ 5. Score calculation
+        //  5 - score calculation
         int score = 0;
         for (StudentAnswer ans : lastAnswerPerQuestion.values()) 
         {
@@ -301,7 +304,7 @@ public class QuizTakingService {
             }
         }
 
-        // Total duration
+        // total duration
         long durationSeconds = java.time.Duration.between(startTime, now).getSeconds();
 
         // update QuizAttempt
@@ -333,8 +336,9 @@ public class QuizTakingService {
         String passFail = (score >= totalQuestions / 2) ? "pass" : "fail";
 
         // Schedule email notification
+
         scheduler.schedule(() -> {
-            sendResultNotification(attempt);
+            notificationService.sendResultNotification(attempt);
         }, 10, TimeUnit.SECONDS);
 
         // ✅ Error Fixed

@@ -25,6 +25,7 @@ public class NotificationService
     private final JavaMailSender mailSender;
     // private final QuizRepository quizRepository;
     private final UserRepository userRepository;
+    
 
     public List<Notification> getNotificationsByUsername(String username) 
     {
