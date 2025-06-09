@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { createEmployee } from '../services/EmployeeService';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeComponent = () => {
 
@@ -6,9 +8,10 @@ const EmployeeComponent = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
 //using arrow function
-    const handleFirstName = (e) => setFirstName(e.tager.value);
-    const handleLastName = (e) => setLastName(e.tager.value);
-    const handleEmail = (e) => setEmail(e.tager.value);
+    const handleFirstName = (e) => setFirstName(e.target.value);
+    const handleLastName = (e) => setLastName(e.target.value);
+    const handleEmail = (e) => setEmail(e.target.value);
+
     // function handleFirstName(e)
     // {
     //     setFirstName(e.target.value);
@@ -24,11 +27,17 @@ const EmployeeComponent = () => {
     //     setEmail(e.target.value);
     // }
 
+    const navigator = useNavigate();
     function saveEmployee(e)
     {
         e.preventDefault();
         const employee = {firstName, lastName, email}
         console.log(employee)
+        createEmployee(employee).then((reponse) => 
+        {
+            console.log(reponse.data);
+            navigator("/employees")
+        })
     }
 
   return (
