@@ -9,7 +9,6 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import EmployeeComponent from './components/EmployeeComponent'
 
 function App() {
-
   return (
     <>
     <BrowserRouter>

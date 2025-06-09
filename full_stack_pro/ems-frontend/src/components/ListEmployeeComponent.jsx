@@ -27,7 +27,8 @@ const ListEmployeeComponent = () => {
         navigator(`/edit-employee/${id}`)
     }
 
-    function removeEmployee(id) {
+    function removeEmployee(id) 
+    {
         console.log(id);
         deleteEmployee(id).then((response) => {
             getAllEmployees();
