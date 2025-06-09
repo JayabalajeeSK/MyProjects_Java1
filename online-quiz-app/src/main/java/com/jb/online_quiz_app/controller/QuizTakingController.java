@@ -30,7 +30,7 @@ public class QuizTakingController {
 
     //START QUIZ
     @PostMapping("/{id}/start")
-    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<String> startQuiz(@PathVariable("id") Long quizId, Authentication authentication) 
     {
         String response = quizTakingService.startQuiz(quizId, authentication);
@@ -39,7 +39,7 @@ public class QuizTakingController {
 
     // Get question 
     @GetMapping("/{quizId}/question/showNext")
-    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<Question> showNextQuestion(@PathVariable Long quizId, Principal principal) 
     {
         String username = principal.getName();
@@ -48,7 +48,7 @@ public class QuizTakingController {
     }
 
     @GetMapping("/{quizId}/question/showPrevious")
-    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<Question> showPreviousQuestion(@PathVariable Long quizId, Principal principal) 
     {
         String username = principal.getName();
@@ -58,7 +58,7 @@ public class QuizTakingController {
 
     // Enter answer
     @PostMapping("/{quizId}/answer")
-    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<?> answerQuestion(@PathVariable Long quizId,
                                             @AuthenticationPrincipal UserDetails userDetails,
                                             @RequestBody StudentAnswer answerRequest) 
@@ -68,7 +68,7 @@ public class QuizTakingController {
 
     //Submit Quizz
     @PostMapping("/{quizId}/submit")
-    @PreAuthorize("hasAnyRole('STUDENT','ADMIN')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<?> submitQuiz(@PathVariable Long quizId,
                                         @AuthenticationPrincipal UserDetails userDetails) {
         return quizTakingService.submitQuiz(quizId, userDetails);
